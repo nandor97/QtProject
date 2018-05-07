@@ -5,6 +5,8 @@
 #include <QGLFormat>
 #include "../Core/GenericCurves3.h"
 #include "../Parametric/ParametricCurves3.h"
+#include "../Cyclic/CyclicCurves3.h"
+#include "../Core/Constants.h"
 
 namespace cagd
 {
@@ -28,9 +30,16 @@ namespace cagd
         double      _trans_x, _trans_y, _trans_z;
 
         // your other declarations
-        int _curve_index = 0;
-        ParametricCurve3*   _pc;
-        GenericCurve3*      _image_of_pc;
+        RowMatrix<ParametricCurve3*> _pc;
+        RowMatrix<GenericCurve3*> _image_of_pc;
+        GLint _pc_index;
+
+        CyclicCurve3 *_cc;
+        GLuint _n; //order of the cyclic curve
+        GLuint _max_order_of_derivatives;
+        GLuint _div_point_count; //number of subdivision points
+        GenericCurve3* _img_cc;
+
         QTimer      *_timer;
         GLdouble    _angle;
     public:
@@ -57,5 +66,6 @@ namespace cagd
         void set_trans_x(double value);
         void set_trans_y(double value);
         void set_trans_z(double value);
+        void set_pc_index(int value);
     };
 }

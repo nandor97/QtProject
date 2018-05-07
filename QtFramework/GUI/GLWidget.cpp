@@ -23,14 +23,18 @@ namespace cagd
 
     GLWidget::~GLWidget()
     {
-        if(_pc)
-            delete _pc, _pc = 0;
-        if(_image_of_pc)
-            delete _image_of_pc, _image_of_pc = 0;
+        for (GLuint i = 0; i < 6; ++i)
+        {
+        if(_pc[i])
+            delete _pc[i], _pc[i] = 0;
+        if(_image_of_pc[i])
+            delete _image_of_pc[i], _image_of_pc[i] = 0;
+       }
     }
 
     void GLWidget::initializeGL()
     {
+        _pc_index = 0;
         // creating a perspective projection matrix
         glMatrixMode(GL_PROJECTION);
 
@@ -96,40 +100,194 @@ namespace cagd
 
             glewInit();
 
-            RowMatrix<ParametricCurve3::Derivative> derivative(3);
-            derivative(0) = spiral_on_cone::d0;
-            derivative(1) = spiral_on_cone::d1;
-            derivative(2) = spiral_on_cone::d2;
+            _pc.ResizeColumns(6);
+            _image_of_pc.ResizeColumns(6);
 
-            _pc = 0;
-            _pc = new ParametricCurve3(derivative, spiral_on_cone::u_min, spiral_on_cone::u_max);
-
-            if (!_pc)
-            {
-                //error: either close the application , or handle this exception
-                throw Exception("Could not create the parametric curve!");
-                //application.close();
-            }
-
-            GLuint div_point_count = 200;
+            GLuint div_point_count =200;
             GLenum usage_flag = GL_STATIC_DRAW;
 
-            _image_of_pc = 0;
+            //spiral on cone
 
-            _image_of_pc = _pc->GenerateImage(div_point_count, usage_flag);
+            RowMatrix<ParametricCurve3::Derivative> derivative_spiral(3);
 
-            if (!_image_of_pc)
-            {
-                //error: either close the application , or handle this exception
-                throw Exception("Could not create the image of parametric curve");
-                //application.close();
+            derivative_spiral(0) = spiral_on_cone::d0;
+            derivative_spiral(1) = spiral_on_cone::d1;
+            derivative_spiral(2) = spiral_on_cone::d2;
+
+            _pc[0] = 0;
+            _pc[0] = new ParametricCurve3(derivative_spiral,spiral_on_cone::u_min, spiral_on_cone::u_max);
+
+            if(!_pc[0]){
+                 throw Exception("_pc is null!");
             }
 
-            if (!_image_of_pc->UpdateVertexBufferObjects(usage_flag))
-            {
-                cout << "Could not create the vertex buffer object of the parametric curve!" << endl;
+            _image_of_pc[0] = 0;
+            _image_of_pc[0] = _pc[0]->GenerateImage(div_point_count,usage_flag);
+            if(!_image_of_pc[0]){
+                 throw("Image_pc is null!");
             }
 
+            if(!_image_of_pc[0]-> UpdateVertexBufferObjects(usage_flag)){
+                  cout<<"Could not create the vertex buffer object of the parametric curve!"<<endl;
+            }
+
+            //cochleoid
+
+            RowMatrix<ParametricCurve3::Derivative> derivative_cochleoid(3);
+
+            derivative_cochleoid(0) = cochleoid::d0;
+            derivative_cochleoid(1) = cochleoid::d1;
+            derivative_cochleoid(2) = cochleoid::d2;
+
+            _pc[1] = 0;
+            _pc[1] = new ParametricCurve3(derivative_cochleoid,cochleoid::u_min, cochleoid::u_max);
+
+            if(!_pc[1]){
+                 throw Exception("_pc is null!");
+            }
+
+            _image_of_pc[1] = 0;
+            _image_of_pc[1] = _pc[1]->GenerateImage(div_point_count,usage_flag);
+            if(!_image_of_pc[1]){
+                 throw("Image_pc is null!");
+            }
+
+            if(!_image_of_pc[1]-> UpdateVertexBufferObjects(usage_flag)){
+                  cout<<"Could not create the vertex buffer object of the parametric curve!"<<endl;
+            }
+
+            //torus knot
+
+            RowMatrix<ParametricCurve3::Derivative> derivative_torus_knot(3);
+
+            derivative_torus_knot(0) = torus_knot::d0;
+            derivative_torus_knot(1) = torus_knot::d1;
+            derivative_torus_knot(2) = torus_knot::d2;
+
+            _pc[2] = 0;
+            _pc[2] = new ParametricCurve3(derivative_torus_knot,torus_knot::u_min, torus_knot::u_max);
+
+            if(!_pc[2]){
+                 throw Exception("_pc is null!");
+            }
+
+            _image_of_pc[2] = 0;
+            _image_of_pc[2] = _pc[2]->GenerateImage(div_point_count,usage_flag);
+            if(!_image_of_pc[2]){
+                 throw("Image_pc is null!");
+            }
+
+            if(!_image_of_pc[2]-> UpdateVertexBufferObjects(usage_flag)){
+                  cout<<"Could not create the vertex buffer object of the parametric curve!"<<endl;
+            }
+
+            //ellipse
+
+            RowMatrix<ParametricCurve3::Derivative> derivative_ellipse(3);
+
+            derivative_ellipse(0) = ellipse::d0;
+            derivative_ellipse(1) = ellipse::d1;
+            derivative_ellipse(2) = ellipse::d2;
+
+            _pc[3] = 0;
+            _pc[3] = new ParametricCurve3(derivative_ellipse,ellipse::u_min, ellipse::u_max);
+
+            if(!_pc[3]){
+                 throw Exception("_pc is null!");
+            }
+
+            _image_of_pc[3] = 0;
+            _image_of_pc[3] = _pc[3]->GenerateImage(div_point_count,usage_flag);
+            if(!_image_of_pc[3]){
+                 throw("Image_pc is null!");
+            }
+
+            if(!_image_of_pc[3]-> UpdateVertexBufferObjects(usage_flag)){
+                  cout<<"Could not create the vertex buffer object of the parametric curve!"<<endl;
+            }
+
+            //epicycloid
+
+            RowMatrix<ParametricCurve3::Derivative> derivative_epicycloid(3);
+
+            derivative_epicycloid(0) = epicycloid::d0;
+            derivative_epicycloid(1) = epicycloid::d1;
+            derivative_epicycloid(2) = epicycloid::d2;
+
+            _pc[4] = 0;
+            _pc[4] = new ParametricCurve3(derivative_epicycloid,epicycloid::u_min, epicycloid::u_max);
+
+            if(!_pc[4]){
+                 throw Exception("_pc is null!");
+            }
+
+            _image_of_pc[4] = 0;
+            _image_of_pc[4] = _pc[4]->GenerateImage(div_point_count,usage_flag);
+            if(!_image_of_pc[4]){
+                 throw("Image_pc is null!");
+            }
+
+            if(!_image_of_pc[4]-> UpdateVertexBufferObjects(usage_flag)){
+                  cout<<"Could not create the vertex buffer object of the parametric curve!"<<endl;
+            }
+            //hypocycloid
+            RowMatrix<ParametricCurve3::Derivative> derivative_hypocycloid(3);
+
+            derivative_hypocycloid(0) = hypocycloid::d0;
+            derivative_hypocycloid(1) = hypocycloid::d1;
+            derivative_hypocycloid(2) = hypocycloid::d2;
+
+            _pc[5] = 0;
+            _pc[5] = new ParametricCurve3(derivative_hypocycloid,hypocycloid::u_min, hypocycloid::u_max);
+
+            if(!_pc[5]){
+                 throw Exception("_pc is null!");
+            }
+
+            _image_of_pc[5] = 0;
+            _image_of_pc[5] = _pc[5]->GenerateImage(div_point_count,usage_flag);
+            if(!_image_of_pc[5]){
+                 throw("Image_pc is null!");
+            }
+
+            if(!_image_of_pc[5]-> UpdateVertexBufferObjects(usage_flag)){
+                  cout<<"Could not create the vertex buffer object of the parametric curve!"<<endl;
+            }
+
+            //Ciclic curve
+
+            _cc = 0;
+            _n = 2; //rogziti a kontrolpontok szamat 2*n +1
+            _cc = new(nothrow)CyclicCurve3(_n);
+            if(!_cc)
+            {
+                throw Exception("Could not create the cyclic curve");
+            }
+            //mivel a kontrolpontok DCoordinate3 tipusuak, az origoba vannak "inicializalva", ezert meg kell valtoztatni a helyzetuket
+            GLdouble step = TWO_PI/(2* _n + 1);
+            for(GLuint i = 0; i <= 2 * _n; i++)
+            {
+                GLdouble u = i * step;
+                DCoordinate3 &cp = (*_cc)[i]; //visszateriti az i-edik kontrolpontra valo hivatkozast - p(i) vektor
+                cp[0] = cos(u);
+                cp[1] = sin(u);
+                cp[2] = 0.0; //ha lecsereljuk, akkor tergorbe lesz pl. -2.0 + 4.0 * (GLdouble) rand()/RAND_MAX;
+            }
+            if(!_cc -> UpdateVertexBufferObjectsOfData())
+            {
+                throw Exception("Could not update the VBOs objects of the cyclic curves control polygon");
+            }
+            _div_point_count = 100;
+            _max_order_of_derivatives = 3;
+            _img_cc = _cc ->GenerateImage(_max_order_of_derivatives, _div_point_count);
+            if(!_img_cc)
+            {
+                throw Exception("Could not generate the image of the cyclic curve!");
+            }
+            if(!_img_cc -> UpdateVertexBufferObjects())
+            {
+                throw Exception("Could not update the VBOs of the cyclic curves's image!");
+            }
 
         }
         catch (Exception &e)
@@ -195,30 +353,40 @@ namespace cagd
 */
 
 /*------------------------------------------
-             SPIRAL ON CONE
+             Parametric curves
 --------------------------------------------*/
 
-        if (_image_of_pc)
-        {
-            glColor3f(1.0, 0.0, 0.0);
-            _image_of_pc->RenderDerivatives(0, GL_LINE_STRIP);
+    if(_image_of_pc[_pc_index])
+    {
+        glColor3f(1.0,0.0,0.0);
+        _image_of_pc[_pc_index]->RenderDerivatives(0,GL_LINE_STRIP); //_0 helyett _pc_index
 
-            glPointSize(5.0);
+        glPointSize(5.0);
 
-                glColor3f(0.0, 0.5, 0.0);
-                _image_of_pc->RenderDerivatives(1, GL_LINES);
-                _image_of_pc->RenderDerivatives(1, GL_POINTS);
+        glColor3f(0.0,0.5,0.0);
+        _image_of_pc[_pc_index]->RenderDerivatives(1,GL_LINES);
+        _image_of_pc[_pc_index]->RenderDerivatives(1,GL_POINTS);
 
-                glColor3f(0.1, 0.5, 0.9);
-                _image_of_pc->RenderDerivatives(2, GL_LINES);
-                _image_of_pc->RenderDerivatives(2, GL_POINTS);
+        glColor3f(1.0,0.5,0.0);
+        _image_of_pc[_pc_index]->RenderDerivatives(2,GL_LINES);
+        _image_of_pc[_pc_index]->RenderDerivatives(2,GL_POINTS);
+    }
 
-            glPointSize(1.0);
+    if(_cc)
+    {
+        _cc->RenderData(GL_LINE_LOOP);
+    }
 
-        }
-        // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
-        // i.e., the original model view matrix is restored
-        glPopMatrix();
+    if(_img_cc)
+    {
+        _img_cc->RenderDerivatives(3, GL_LINES); //ha 0 az elso parameter akkor GL_LINE_LOOP
+    }
+
+    // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
+    // i.e., the original model view matrix is restored
+    glPointSize(1.0);
+    glPopMatrix();
+
     }
 
     //----------------------------------------------------------------------------
@@ -310,4 +478,16 @@ namespace cagd
             updateGL();
         }
     }
+
+    void GLWidget::set_pc_index(int value)
+    {
+        //cout<<"Szam: " << value <<endl;
+        if(_pc_index != value){
+            _pc_index = value;
+            updateGL();
+        }
+    }
+
+
 }
+

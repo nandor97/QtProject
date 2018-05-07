@@ -48,6 +48,9 @@ namespace cagd
         connect(_side_widget->trans_x_spin_box, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_trans_x(double)));
         connect(_side_widget->trans_y_spin_box, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_trans_y(double)));
         connect(_side_widget->trans_z_spin_box, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_trans_z(double)));
+
+        connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)), _gl_widget, SLOT(set_pc_index(int)));
+
     }
 
     //--------------------------------

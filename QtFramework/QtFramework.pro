@@ -97,6 +97,33 @@ HEADERS += \
     GUI/MainWindow.h \
     GUI/SideWidget.h \
     Parametric/ParametricCurves3.h \
+    Test/TestFunctions.h \
+    Core/Constants.h \
+    Core/DCoordinates3.h \
+    Core/Exceptions.h \
+    Core/GenericCurves3.h \
+    Core/LinearCombination3.h \
+    Core/Matrices.h \
+    Core/RealSquareMatrices.h \
+    Dependencies/Include/GL/glew.h \
+    GUI/GLWidget.h \
+    GUI/MainWindow.h \
+    GUI/SideWidget.h \
+    Parametric/ParametricCurves3.h \
+    Test/TestFunctions.h \
+    Core/Constants.h \
+    Core/DCoordinates3.h \
+    Core/Exceptions.h \
+    Core/GenericCurves3.h \
+    Core/LinearCombination3.h \
+    Core/Matrices.h \
+    Core/RealSquareMatrices.h \
+    Cyclic/CyclicCurves3.h \
+    Dependencies/Include/GL/glew.h \
+    GUI/GLWidget.h \
+    GUI/MainWindow.h \
+    GUI/SideWidget.h \
+    Parametric/ParametricCurves3.h \
     Test/TestFunctions.h
 
 SOURCES += \
@@ -127,6 +154,25 @@ SOURCES += \
     Core/GenericCurves3.cpp \
     Core/LinearCombination3.cpp \
     Core/RealSquareMatrices.cpp \
+    GUI/GLWidget.cpp \
+    GUI/MainWindow.cpp \
+    GUI/SideWidget.cpp \
+    Parametric/ParametricCurves3.cpp \
+    Test/TestFunctions.cpp \
+    main.cpp \
+    Core/GenericCurves3.cpp \
+    Core/LinearCombination3.cpp \
+    Core/RealSquareMatrices.cpp \
+    GUI/GLWidget.cpp \
+    GUI/MainWindow.cpp \
+    GUI/SideWidget.cpp \
+    Parametric/ParametricCurves3.cpp \
+    Test/TestFunctions.cpp \
+    main.cpp \
+    Core/GenericCurves3.cpp \
+    Core/LinearCombination3.cpp \
+    Core/RealSquareMatrices.cpp \
+    Cyclic/CyclicCurves3.cpp \
     GUI/GLWidget.cpp \
     GUI/MainWindow.cpp \
     GUI/SideWidget.cpp \

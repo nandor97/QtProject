@@ -34,70 +34,70 @@ int main(int argc, char **argv)
 //---------------------------------------------
 //                 LAB 1
 //---------------------------------------------
-/*
-    Matrix<int> M(3, 5);
-    cout << M << endl;
 
-    for (GLuint i = 0; i < M.GetRowCount(); ++i)
-    {
-        for (GLuint j = 0; j < M.GetColumnCount(); ++j)
-        {
-            M(i,j) = i*M.GetColumnCount() + j;
-        }
-    }
-    fstream f("log.txt", ios_base::out);
-    f << M << endl;
-    f.close();
+//    Matrix<int> M(3, 5);
+//    cout << M << endl;
 
-    Matrix<int> N;
-    fstream g("log.txt", ios_base::in);
-    g >> N;
-    g.close();
-    cout << N << endl;
+//    for (GLuint i = 0; i < M.GetRowCount(); ++i)
+//    {
+//        for (GLuint j = 0; j < M.GetColumnCount(); ++j)
+//        {
+//            M(i,j) = i*M.GetColumnCount() + j;
+//        }
+//    }
+//    fstream f("log.txt", ios_base::out);
+//    f << M << endl;
+//    f.close();
 
-    N.ResizeRows(7);
-    N(6, 4) = -1;
-    cout << N << endl << endl;
+//    Matrix<int> N;
+//    fstream g("log.txt", ios_base::in);
+//    g >> N;
+//    g.close();
+//    cout << N << endl;
 
-    RealSquareMatrix A(3);
-    A(0, 0) =      A(0, 1) =       A(0, 2) = 1.0;
-    A(1, 0) = 3.0; A(1, 1) = -2.0; A(1, 2) = 1.0;
-    A(2, 0) = 2.0; A(2, 1) = 5.0;  A(2, 2) = 7.0;
-    ColumnMatrix<GLdouble> b(3);
-    b[0] = -2.0; b[1] = -7.0; b[2] = -11;
-    ColumnMatrix<GLdouble> x;
-    A.SolveLinearSystem(b, x);
-    cout << x << endl;  //3 1
-                        //-1
-                        //1
-                        //-2
+//    N.ResizeRows(7);
+//    N(6, 4) = -1;
+//    cout << N << endl << endl;
 
-    cout << "------------------" << endl << "TRIANGULAR MATRIX" << endl << "------------------" << endl << endl;
+//    RealSquareMatrix A(3);
+//    A(0, 0) =      A(0, 1) =       A(0, 2) = 1.0;
+//    A(1, 0) = 3.0; A(1, 1) = -2.0; A(1, 2) = 1.0;
+//    A(2, 0) = 2.0; A(2, 1) = 5.0;  A(2, 2) = 7.0;
+//    ColumnMatrix<GLdouble> b(3);
+//    b[0] = -2.0; b[1] = -7.0; b[2] = -11;
+//    ColumnMatrix<GLdouble> x;
+//    A.SolveLinearSystem(b, x);
+//    cout << x << endl;  //3 1
+//                        //-1
+//                        //1
+//                        //-2
 
-    TriangularMatrix<int> TM(3);
-    cout << TM << endl;
+//    cout << "------------------" << endl << "TRIANGULAR MATRIX" << endl << "------------------" << endl << endl;
 
-    for (GLuint i = 0; i < M.GetRowCount(); ++i)
-    {
-        for (GLuint j = 0; j <= i; ++j)
-        {
-            TM(i,j) = i*M.GetColumnCount() + j;
-        }
-    }
-    cout << TM << endl;
+//    TriangularMatrix<int> TM(3);
+//    cout << TM << endl;
 
-    TM.ResizeRows(5);
-    cout << TM << endl;
+//    for (GLuint i = 0; i < M.GetRowCount(); ++i)
+//    {
+//        for (GLuint j = 0; j <= i; ++j)
+//        {
+//            TM(i,j) = i*M.GetColumnCount() + j;
+//        }
+//    }
+//    cout << TM << endl;
 
-    Matrix<int> m(2, 2);
-    m(0, 0) = 4;
-    m(0, 1) = 3;
-    m(1, 0) = 2;
-    m(1, 1) = 1;
-    cout << m << endl;
-    m.ResizeColumns(5);
-    cout << m << endl;
-*/
+//    TM.ResizeRows(5);
+//    cout << TM << endl;
+
+//    Matrix<int> m(2, 2);
+//    m(0, 0) = 4;
+//    m(0, 1) = 3;
+//    m(1, 0) = 2;
+//    m(1, 1) = 1;
+//    cout << m << endl;
+//    m.ResizeColumns(5);
+//    cout << m << endl;
+
 
 
 //---------------------------------------------------

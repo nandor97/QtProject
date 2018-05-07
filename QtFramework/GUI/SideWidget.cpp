@@ -17,5 +17,12 @@ namespace cagd
         p.setColor(QPalette::Highlight, QColor(50,255,10).lighter());
 
         rotate_y_slider->setPalette(p);
+
+        comboBox->addItem("spiral on cone");
+        comboBox->addItem("cochleoid");
+        comboBox->addItem("torus know");
+        comboBox->addItem("ellipse");
+        comboBox->addItem("epicycloid");
+        comboBox->addItem("hypocycloid");
     }
 }

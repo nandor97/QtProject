@@ -252,6 +252,7 @@ namespace cagd
             return GL_FALSE;
         for (GLuint i = 0; i < _column_count; ++i)
             _data[index][i] = row(i);
+        return GL_TRUE;
     }
 
     template <typename T>
