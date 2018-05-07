@@ -30,15 +30,26 @@ namespace cagd
         double      _trans_x, _trans_y, _trans_z;
 
         // your other declarations
+        //parametric curves
         RowMatrix<ParametricCurve3*> _pc;
         RowMatrix<GenericCurve3*> _image_of_pc;
         GLint _pc_index;
 
+        //cyclic curve
         CyclicCurve3 *_cc;
         GLuint _n; //order of the cyclic curve
         GLuint _max_order_of_derivatives;
         GLuint _div_point_count; //number of subdivision points
         GenericCurve3* _img_cc;
+
+        //interpolating cyclic curve
+        CyclicCurve3 *_icc;
+        GenericCurve3 *_img_icc;
+        GLuint _n_i;
+        GLuint _mod;
+        GLuint _div_point_count_i;
+        ColumnMatrix<GLdouble> u;
+        ColumnMatrix<DCoordinate3> d;
 
         QTimer      *_timer;
         GLdouble    _angle;

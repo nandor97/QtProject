@@ -262,6 +262,7 @@ namespace cagd
             return GL_FALSE;
         for (GLuint i = 0; i < _row_count; ++i)
             _data[i][index] = column(i);
+        return GL_TRUE;
     }
 
     // destructor

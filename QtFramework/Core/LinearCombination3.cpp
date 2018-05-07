@@ -1,5 +1,6 @@
 #include "LinearCombination3.h"
 #include "RealSquareMatrices.h"
+#include <math.h>
 
 using namespace cagd;
 using namespace std;
@@ -212,18 +213,35 @@ GLvoid LinearCombination3::GetDefinitionDomain(GLdouble& u_min, GLdouble& u_max)
 GenericCurve3* LinearCombination3::GenerateImage(GLuint max_order_of_derivatives, GLuint div_point_count, GLenum usage_flag) const
 {
     // homework
-    if(div_point_count < 2)
-        return nullptr;
+    GenericCurve3* result = 0;
 
-    if (usage_flag != GL_STREAM_DRAW  && usage_flag != GL_STREAM_READ  && usage_flag != GL_STREAM_COPY  &&
-        usage_flag != GL_DYNAMIC_DRAW && usage_flag != GL_DYNAMIC_READ && usage_flag != GL_DYNAMIC_COPY &&
-        usage_flag != GL_STATIC_DRAW  && usage_flag != GL_STATIC_READ  && usage_flag != GL_STATIC_COPY)
+    result = new GenericCurve3(max_order_of_derivatives, div_point_count, usage_flag);
+
+    if (!result)
     {
-        return nullptr;
+        return 0;
     }
-    GenericCurve3 *result= new (nothrow) GenericCurve3(max_order_of_derivatives,div_point_count,usage_flag);
-    if(!result)
-        return nullptr;
+    // calculate derivatives at inner curve points
+    GLdouble u_step = (_u_max - _u_min) / (div_point_count - 1);
+    GLdouble u = _u_min;
+
+    for (GLuint i = 0; i < div_point_count; i++)
+    {
+        //u = min(_u_min + i * u_step, _u_max);
+        if (_u_min + i * u_step < _u_max)
+            u = _u_min + i * u_step;
+        else
+            u = _u_max;
+        Derivatives d;
+        if (!CalculateDerivatives(max_order_of_derivatives, u, d))
+        {
+            delete result, result = 0;
+            return result;
+        }
+
+        result->_derivative.SetColumn(i, d);
+    }
+
     return result;
     //done
 }
@@ -233,4 +251,3 @@ LinearCombination3::~LinearCombination3()
 {
     DeleteVertexBufferObjectsOfData();
 }
-

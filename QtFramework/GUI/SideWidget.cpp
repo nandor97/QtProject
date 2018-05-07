@@ -24,5 +24,7 @@ namespace cagd
         comboBox->addItem("ellipse");
         comboBox->addItem("epicycloid");
         comboBox->addItem("hypocycloid");
+        comboBox->addItem("cyclic curve");
+        comboBox->addItem("interpolating cyclic curve");
     }
 }
