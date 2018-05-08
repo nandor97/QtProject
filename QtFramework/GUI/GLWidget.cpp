@@ -311,7 +311,7 @@ void GLWidget::initializeGL()
             icp.z() = 0;
             d[i] = icp;
         }
-        d[0][2] = 3.0;
+        d[0][2] = 2.0;
         _icc->UpdateDataForInterpolation(u, d);
 
         _icc->UpdateVertexBufferObjectsOfData();
@@ -424,6 +424,16 @@ void GLWidget::paintGL()
         }
         if (_img_icc)
         {
+            glPointSize(15.0);
+            glBegin(GL_POINTS);
+            {
+                for(GLuint i = 0; i < 2 * _n_i + 1; ++i)
+                {
+                    glVertex3d(d[i][0], d[i][1], d[i][2]);
+                }
+            }
+            glEnd();
+
             glColor3f(1.0,0.0,0.0);
             _img_icc->RenderDerivatives(0, GL_LINE_LOOP);
 
