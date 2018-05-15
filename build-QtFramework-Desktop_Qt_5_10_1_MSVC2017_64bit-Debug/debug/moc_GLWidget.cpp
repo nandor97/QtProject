@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_cagd__GLWidget_t {
-    QByteArrayData data[14];
-    char stringdata0[151];
+    QByteArrayData data[21];
+    char stringdata0[230];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,14 +44,22 @@ QT_MOC_LITERAL(9, 98, 11), // "set_trans_z"
 QT_MOC_LITERAL(10, 110, 12), // "set_pc_index"
 QT_MOC_LITERAL(11, 123, 8), // "_animate"
 QT_MOC_LITERAL(12, 132, 16), // "set_shader_index"
-QT_MOC_LITERAL(13, 149, 1) // "i"
+QT_MOC_LITERAL(13, 149, 1), // "i"
+QT_MOC_LITERAL(14, 151, 9), // "set_scale"
+QT_MOC_LITERAL(15, 161, 13), // "set_smoothing"
+QT_MOC_LITERAL(16, 175, 11), // "set_shading"
+QT_MOC_LITERAL(17, 187, 7), // "set_red"
+QT_MOC_LITERAL(18, 195, 9), // "set_green"
+QT_MOC_LITERAL(19, 205, 8), // "set_blue"
+QT_MOC_LITERAL(20, 214, 15) // "set_alpha_color"
 
     },
     "cagd::GLWidget\0set_angle_x\0\0value\0"
     "set_angle_y\0set_angle_z\0set_zoom_factor\0"
     "set_trans_x\0set_trans_y\0set_trans_z\0"
     "set_pc_index\0_animate\0set_shader_index\0"
-    "i"
+    "i\0set_scale\0set_smoothing\0set_shading\0"
+    "set_red\0set_green\0set_blue\0set_alpha_color"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,7 +69,7 @@ static const uint qt_meta_data_cagd__GLWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,16 +77,23 @@ static const uint qt_meta_data_cagd__GLWidget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x0a /* Public */,
-       4,    1,   67,    2, 0x0a /* Public */,
-       5,    1,   70,    2, 0x0a /* Public */,
-       6,    1,   73,    2, 0x0a /* Public */,
-       7,    1,   76,    2, 0x0a /* Public */,
-       8,    1,   79,    2, 0x0a /* Public */,
-       9,    1,   82,    2, 0x0a /* Public */,
-      10,    1,   85,    2, 0x0a /* Public */,
-      11,    0,   88,    2, 0x0a /* Public */,
-      12,    1,   89,    2, 0x0a /* Public */,
+       1,    1,   99,    2, 0x0a /* Public */,
+       4,    1,  102,    2, 0x0a /* Public */,
+       5,    1,  105,    2, 0x0a /* Public */,
+       6,    1,  108,    2, 0x0a /* Public */,
+       7,    1,  111,    2, 0x0a /* Public */,
+       8,    1,  114,    2, 0x0a /* Public */,
+       9,    1,  117,    2, 0x0a /* Public */,
+      10,    1,  120,    2, 0x0a /* Public */,
+      11,    0,  123,    2, 0x0a /* Public */,
+      12,    1,  124,    2, 0x0a /* Public */,
+      14,    1,  127,    2, 0x0a /* Public */,
+      15,    1,  130,    2, 0x0a /* Public */,
+      16,    1,  133,    2, 0x0a /* Public */,
+      17,    1,  136,    2, 0x0a /* Public */,
+      18,    1,  139,    2, 0x0a /* Public */,
+      19,    1,  142,    2, 0x0a /* Public */,
+      20,    1,  145,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -91,6 +106,13 @@ static const uint qt_meta_data_cagd__GLWidget[] = {
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   13,
+    QMetaType::Void, QMetaType::Double,    3,
+    QMetaType::Void, QMetaType::Double,    3,
+    QMetaType::Void, QMetaType::Double,    3,
+    QMetaType::Void, QMetaType::Double,    3,
+    QMetaType::Void, QMetaType::Double,    3,
+    QMetaType::Void, QMetaType::Double,    3,
+    QMetaType::Void, QMetaType::Double,    3,
 
        0        // eod
 };
@@ -111,6 +133,13 @@ void cagd::GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 7: _t->set_pc_index((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 8: _t->_animate(); break;
         case 9: _t->set_shader_index((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 10: _t->set_scale((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 11: _t->set_smoothing((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 12: _t->set_shading((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 13: _t->set_red((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 14: _t->set_green((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 15: _t->set_blue((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 16: _t->set_alpha_color((*reinterpret_cast< double(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -141,13 +170,13 @@ int cagd::GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 17;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 17)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 17;
     }
     return _id;
 }

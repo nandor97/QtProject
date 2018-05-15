@@ -52,6 +52,15 @@ namespace cagd
         connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)), _gl_widget, SLOT(set_pc_index(int)));
         connect(_side_widget->cb_shaders, SIGNAL(currentIndexChanged(int)), _gl_widget, SLOT(set_shader_index(int)));
 
+        connect(_side_widget->scale, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_scale(double)));
+        connect(_side_widget->smoothing, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_smoothing(double)));
+        connect(_side_widget->shading, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_shading(double)));
+
+        connect(_side_widget->red, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_red(double)));
+        connect(_side_widget->blue, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_blue(double)));
+        connect(_side_widget->green, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_green(double)));
+        connect(_side_widget->alpha, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_alpha_color(double)));
+
     }
 
     //--------------------------------

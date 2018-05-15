@@ -498,15 +498,23 @@ void GLWidget::initializeGL()
         }
 
         _shader_index = 0;
+        _scale = 5.0f;
+        _smoothing = 2.0f;
+        _shading = 1.0f;
+
+        _red = 1.0;
+        _green = 0.2;
+        _blue = 0.4;
+        _alpha = 1.0;
         //-----------------------reflection line shader----------------------------------------------
         if(!_shader_reflection_lines.InstallShaders("Shaders/reflection_lines.vert", "Shaders/reflection_lines.frag", GL_TRUE))
         {
             throw("Could not install the shader files");
         }
         _shader_reflection_lines.Enable();
-        _shader_reflection_lines.SetUniformVariable1f("scale_factor", 4.0f);
-        _shader_reflection_lines.SetUniformVariable1f("smoothing", 2.0f);
-        _shader_reflection_lines.SetUniformVariable1f("shading", 1.0f);
+        _shader_reflection_lines.SetUniformVariable1f("scale_factor", _scale);
+        _shader_reflection_lines.SetUniformVariable1f("smoothing", _smoothing);
+        _shader_reflection_lines.SetUniformVariable1f("shading", _shading);
         _shader_reflection_lines.Disable();
 
         //-------------------------directional light---------------------------------------
@@ -523,12 +531,8 @@ void GLWidget::initializeGL()
             throw("Could not install the shader files");
         }
         _shader_toon.Enable();
-        GLfloat *value = new GLfloat[4];
-        value[0] = 1.0f;
-        value[1] = 0.2f;
-        value[2] = 0.4f;
-        value[3] = 1.0f;
-        _shader_toon.SetUniformVariable4fv("default_outline_color", 4, value);
+
+        _shader_toon.SetUniformVariable4f("default_outline_color", (GLfloat)_red, (GLfloat)_green, (GLfloat)_blue, (GLfloat)_alpha);
         _shader_toon.Disable();
 
         //------------------------------two sided lighting---------------------------------
@@ -688,6 +692,9 @@ void GLWidget::paintGL()
     else if(_shader_index == 1)
     {
         _shader_reflection_lines.Enable();
+        _shader_reflection_lines.SetUniformVariable1f("scale_factor", (GLfloat) _scale);
+        _shader_reflection_lines.SetUniformVariable1f("smoothing", (GLfloat) _smoothing);
+        _shader_reflection_lines.SetUniformVariable1f("shading", (GLfloat) _shading);
     }
     else if(_shader_index == 2)
     {
@@ -696,6 +703,7 @@ void GLWidget::paintGL()
     else if(_shader_index == 3)
     {
         _shader_toon.Enable();
+        _shader_toon.SetUniformVariable4f("default_outline_color", (GLfloat)_red, (GLfloat)_green, (GLfloat)_blue, (GLfloat)_alpha_color);
     }
     else if(_shader_index == 4)
     {
@@ -1003,6 +1011,66 @@ void GLWidget::set_shader_index(int i)
     if(_shader_index != i)
         _shader_index = i;
     updateGL();
+}
+void GLWidget::set_scale(double value)
+{
+    //std::cout << "HERE" << endl;
+    if(_scale != value){
+        _scale = value;
+        updateGL();
+    }
+}
+
+void GLWidget::set_smoothing(double value)
+{
+    if(_smoothing != value){
+        _smoothing = value;
+        updateGL();
+    }
+}
+
+void GLWidget::set_shading(double value)
+{
+    if(_shading != value){
+        _shading = value;
+        updateGL();
+    }
+}
+
+void GLWidget::set_red(double value)
+{
+    //std::cout << "HERE" << endl;
+    if(_red != value){
+        _red = value;
+        updateGL();
+    }
+}
+
+void GLWidget::set_green(double value)
+{
+    //std::cout << "HERE" << endl;
+    if(_green != value){
+        _green = value;
+        updateGL();
+    }
+}
+
+void GLWidget::set_blue(double value)
+{
+    //std::cout << "HERE" << endl;
+    if(_blue != value){
+        _blue = value;
+        updateGL();
+    }
+}
+
+void GLWidget::set_alpha_color(double value)
+{
+    //std::cout << "HERE" << endl;
+    if(_alpha_color != value){
+        _alpha_color = value;
+        updateGL();
+    }
 }
 
 }

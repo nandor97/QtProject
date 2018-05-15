@@ -82,6 +82,11 @@ namespace cagd
         ShaderProgram _shader_toon;
         ShaderProgram _shader_two_sided_lighting;
 
+        GLdouble _scale;
+        GLdouble _smoothing;
+        GLdouble _shading;
+        GLdouble _red, _green, _blue, _alpha_color;
+
     public:
         // special and default constructor
         // the format specifies the properties of the rendering window
@@ -110,6 +115,12 @@ namespace cagd
         void _animate();
 
         void set_shader_index(int i);
-
+        void set_scale(double value);
+        void set_smoothing(double value);
+        void set_shading(double value);
+        void set_red(double value);
+        void set_green(double value);
+        void set_blue(double value);
+        void set_alpha_color(double value);
     };
 }

@@ -48,18 +48,26 @@ public:
     QLabel *label_8;
     QComboBox *cb_shaders;
     QLabel *lb_shaderek;
-    QDoubleSpinBox *doubleSpinBox;
-    QDoubleSpinBox *doubleSpinBox_2;
-    QDoubleSpinBox *doubleSpinBox_3;
+    QDoubleSpinBox *scale;
+    QDoubleSpinBox *smoothing;
+    QDoubleSpinBox *shading;
     QLabel *lb_scale;
     QLabel *label_9;
     QLabel *label_10;
+    QLabel *label_11;
+    QLabel *label_12;
+    QLabel *label_13;
+    QLabel *label_14;
+    QDoubleSpinBox *red;
+    QDoubleSpinBox *green;
+    QDoubleSpinBox *blue;
+    QDoubleSpinBox *alpha;
 
     void setupUi(QWidget *SideWidget)
     {
         if (SideWidget->objectName().isEmpty())
             SideWidget->setObjectName(QStringLiteral("SideWidget"));
-        SideWidget->resize(289, 355);
+        SideWidget->resize(296, 502);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -188,15 +196,18 @@ public:
 
         formLayout->setWidget(8, QFormLayout::LabelRole, lb_shaderek);
 
-        doubleSpinBox = new QDoubleSpinBox(SideWidget);
-        doubleSpinBox->setObjectName(QStringLiteral("doubleSpinBox"));
-        doubleSpinBox->setGeometry(QRect(100, 260, 171, 22));
-        doubleSpinBox_2 = new QDoubleSpinBox(SideWidget);
-        doubleSpinBox_2->setObjectName(QStringLiteral("doubleSpinBox_2"));
-        doubleSpinBox_2->setGeometry(QRect(100, 290, 171, 22));
-        doubleSpinBox_3 = new QDoubleSpinBox(SideWidget);
-        doubleSpinBox_3->setObjectName(QStringLiteral("doubleSpinBox_3"));
-        doubleSpinBox_3->setGeometry(QRect(100, 320, 171, 22));
+        scale = new QDoubleSpinBox(SideWidget);
+        scale->setObjectName(QStringLiteral("scale"));
+        scale->setGeometry(QRect(100, 260, 171, 22));
+        scale->setValue(5);
+        smoothing = new QDoubleSpinBox(SideWidget);
+        smoothing->setObjectName(QStringLiteral("smoothing"));
+        smoothing->setGeometry(QRect(100, 290, 171, 22));
+        smoothing->setValue(2);
+        shading = new QDoubleSpinBox(SideWidget);
+        shading->setObjectName(QStringLiteral("shading"));
+        shading->setGeometry(QRect(100, 320, 171, 22));
+        shading->setValue(1);
         lb_scale = new QLabel(SideWidget);
         lb_scale->setObjectName(QStringLiteral("lb_scale"));
         lb_scale->setGeometry(QRect(20, 260, 71, 16));
@@ -206,6 +217,38 @@ public:
         label_10 = new QLabel(SideWidget);
         label_10->setObjectName(QStringLiteral("label_10"));
         label_10->setGeometry(QRect(20, 320, 61, 16));
+        label_11 = new QLabel(SideWidget);
+        label_11->setObjectName(QStringLiteral("label_11"));
+        label_11->setGeometry(QRect(20, 360, 47, 13));
+        label_12 = new QLabel(SideWidget);
+        label_12->setObjectName(QStringLiteral("label_12"));
+        label_12->setGeometry(QRect(20, 390, 47, 13));
+        label_13 = new QLabel(SideWidget);
+        label_13->setObjectName(QStringLiteral("label_13"));
+        label_13->setGeometry(QRect(20, 420, 47, 13));
+        label_14 = new QLabel(SideWidget);
+        label_14->setObjectName(QStringLiteral("label_14"));
+        label_14->setGeometry(QRect(20, 450, 47, 13));
+        red = new QDoubleSpinBox(SideWidget);
+        red->setObjectName(QStringLiteral("red"));
+        red->setGeometry(QRect(100, 360, 171, 22));
+        red->setMaximum(1);
+        red->setValue(1);
+        green = new QDoubleSpinBox(SideWidget);
+        green->setObjectName(QStringLiteral("green"));
+        green->setGeometry(QRect(100, 390, 171, 22));
+        green->setMaximum(1);
+        green->setValue(0.2);
+        blue = new QDoubleSpinBox(SideWidget);
+        blue->setObjectName(QStringLiteral("blue"));
+        blue->setGeometry(QRect(100, 420, 171, 22));
+        blue->setMaximum(1);
+        blue->setValue(0.4);
+        alpha = new QDoubleSpinBox(SideWidget);
+        alpha->setObjectName(QStringLiteral("alpha"));
+        alpha->setGeometry(QRect(100, 450, 171, 22));
+        alpha->setMaximum(1);
+        alpha->setValue(1);
 #ifndef QT_NO_SHORTCUT
         label->setBuddy(rotate_x_slider);
         label_2->setBuddy(rotate_y_slider);
@@ -240,6 +283,10 @@ public:
         lb_scale->setText(QApplication::translate("SideWidget", "Scale factor:", nullptr));
         label_9->setText(QApplication::translate("SideWidget", "Smoothing:", nullptr));
         label_10->setText(QApplication::translate("SideWidget", "Shading:", nullptr));
+        label_11->setText(QApplication::translate("SideWidget", "red", nullptr));
+        label_12->setText(QApplication::translate("SideWidget", "green", nullptr));
+        label_13->setText(QApplication::translate("SideWidget", "blue", nullptr));
+        label_14->setText(QApplication::translate("SideWidget", "alpha", nullptr));
     } // retranslateUi
 
 };
