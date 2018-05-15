@@ -26,5 +26,19 @@ namespace cagd
         comboBox->addItem("hypocycloid");
         comboBox->addItem("cyclic curve");
         comboBox->addItem("interpolating cyclic curve");
+        comboBox->addItem("Eger");
+        comboBox->addItem("Elefant");
+        comboBox->addItem("Spheroid");
+        comboBox->addItem("Conchoid");
+        comboBox->addItem("Elliptic torus");
+        comboBox->addItem("Astroidal");
+        comboBox->addItem("Sine surface");
+        comboBox->addItem("Patch");
+
+        cb_shaders->addItem("Nothing");
+        cb_shaders->addItem("Reflection lines");
+        cb_shaders->addItem("Directional light");
+        cb_shaders->addItem("Toon");
+        cb_shaders->addItem("Two sided lighting");
     }
 }

@@ -50,6 +50,7 @@ namespace cagd
         connect(_side_widget->trans_z_spin_box, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_trans_z(double)));
 
         connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)), _gl_widget, SLOT(set_pc_index(int)));
+        connect(_side_widget->cb_shaders, SIGNAL(currentIndexChanged(int)), _gl_widget, SLOT(set_shader_index(int)));
 
     }
 

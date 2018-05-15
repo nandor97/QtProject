@@ -105,24 +105,13 @@ GLboolean RealSquareMatrix::ResizeRows(GLuint row_count)
 {
     return (Matrix<GLdouble>::ResizeRows(row_count)&&Matrix<GLdouble>::ResizeColumns(row_count));
 }
-
 GLboolean RealSquareMatrix::ResizeColumns(GLuint column_count)
 {
     return (Matrix<GLdouble>::ResizeRows(column_count)&&Matrix<GLdouble>::ResizeColumns(column_count));
 }
-
-
-RealSquareMatrix::RealSquareMatrix(const RealSquareMatrix &m):
-    Matrix<GLdouble>(m),
-    _lu_decomposition_is_done(m._lu_decomposition_is_done),
-    _row_permutation(m._row_permutation)
-{
-
-}
-
-RealSquareMatrix& RealSquareMatrix::operator =(const RealSquareMatrix &m)
-{
-    if (this != &m)
+RealSquareMatrix::RealSquareMatrix(const RealSquareMatrix &m):Matrix<GLdouble>(m),_lu_decomposition_is_done(m._lu_decomposition_is_done), _row_permutation(m._row_permutation){}
+RealSquareMatrix& RealSquareMatrix::operator =(const RealSquareMatrix &m){
+    if(this != &m)
     {
         Matrix<GLdouble>::operator =(m);
         _lu_decomposition_is_done = m._lu_decomposition_is_done;

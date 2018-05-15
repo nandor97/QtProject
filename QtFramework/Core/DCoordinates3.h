@@ -12,7 +12,7 @@ namespace cagd
     class DCoordinate3
     {
     private:
-        GLdouble _data[3];
+        GLdouble _data[3]; //x,y,z koordinatakat fogja jelolni
 
     public:
 
@@ -109,16 +109,12 @@ namespace cagd
 
     inline GLdouble DCoordinate3::y() const
     {
-        // homework
         return _data[1];
-        //done
     }
 
     inline GLdouble DCoordinate3::z() const
     {
-        // homework
         return _data[2];
-        //done
     }
 
     // get components by reference
@@ -134,16 +130,12 @@ namespace cagd
 
     inline GLdouble& DCoordinate3::y()
     {
-        // homework
         return _data[1];
-        //done
     }
 
     inline GLdouble& DCoordinate3::z()
     {
-        // homework
         return _data[2];
-        //done
     }
 
     // change sign
@@ -157,7 +149,7 @@ namespace cagd
         return DCoordinate3(-_data[0], -_data[1], -_data[2]);
     }
 
-    // add
+    // add //inline- hatekonysag miatt(szovegbehelyettesites), referencia - felesleges masolatok elkerulese, const- mert nem akarunk,nem szabad masolatot kesziteni rola, const visszaterites-temporalis adatokon ne vegezzunk muveletet
     inline const DCoordinate3 DCoordinate3::operator +(const DCoordinate3& rhs) const
     {
         return DCoordinate3(_data[0] + rhs._data[0], _data[1] + rhs._data[1], _data[2] + rhs._data[2]);
@@ -175,23 +167,19 @@ namespace cagd
     // subtract
     inline const DCoordinate3 DCoordinate3::operator -(const DCoordinate3& rhs) const
     {
-        // homework
         return DCoordinate3(_data[0] - rhs._data[0], _data[1] - rhs._data[1], _data[2] - rhs._data[2]);
-        //done
     }
 
     // subtract from *this
     inline DCoordinate3& DCoordinate3::operator -=(const DCoordinate3& rhs)
     {
-        //homework
         _data[0] -= rhs._data[0];
         _data[1] -= rhs._data[1];
         _data[2] -= rhs._data[2];
         return *this;
-        //done
     }
 
-    // cross product
+    // cross product = vektorialis szorzat
     inline const DCoordinate3 DCoordinate3::operator ^(const DCoordinate3& rhs) const
     {
         return DCoordinate3(
@@ -203,16 +191,14 @@ namespace cagd
     // cross product, result is stored by *this
     inline DCoordinate3& DCoordinate3::operator ^=(const DCoordinate3& rhs)
     {
-        // homework
-        GLdouble h0, h1, h2;
-        h0 = _data[1] * rhs._data[2] - _data[2] * rhs._data[1];
-        h1 = _data[2] * rhs._data[0] - _data[0] * rhs._data[2];
-        h2 = _data[0] * rhs._data[1] - _data[1] * rhs._data[0];
-        _data[0] = h0;
-        _data[1] = h1;
-        _data[2] = h2;
+        // homework -->kell temporalis valtozo
+        GLdouble x = _data[1] * rhs._data[2] - _data[2] * rhs._data[1];
+        GLdouble y = _data[2] * rhs._data[0] - _data[0] * rhs._data[2];
+        GLdouble z = _data[0] * rhs._data[1] - _data[1] * rhs._data[0];
+        _data[0] = x;
+        _data[1] = y;
+        _data[2] = z;
         return *this;
-        //done
     }
 
     // dot product
@@ -229,16 +215,12 @@ namespace cagd
 
     inline const DCoordinate3 operator *(const GLdouble& lhs, const DCoordinate3& rhs)
     {
-        // homework
         return DCoordinate3(lhs * rhs[0], lhs * rhs[1], lhs * rhs[2]);
-        //done
     }
 
     inline const DCoordinate3 DCoordinate3::operator /(const GLdouble& rhs) const
     {
-        // homework
         return DCoordinate3(_data[0] / rhs, _data[1] / rhs, _data[2] / rhs);
-        //done
     }
 
     // scale *this
@@ -253,19 +235,17 @@ namespace cagd
 
     inline DCoordinate3& DCoordinate3::operator /=(const GLdouble& rhs)
     {
-        // homework
         _data[0] /= rhs;
         _data[1] /= rhs;
         _data[2] /= rhs;
 
         return *this;
-        //done
     }
 
     // length
     inline GLdouble DCoordinate3::length() const
     {
-        return std::sqrt((*this) * (*this));
+        return std::sqrt((*this) * (*this)); //meghivodik a skalaris szorzat --> sqrt(x^2 + y^2 + z^2)
     }
 
     // normalize
@@ -298,8 +278,6 @@ namespace cagd
     // input from stream
     inline std::istream& operator >>(std::istream& lhs, DCoordinate3& rhs)
     {
-        // homework
-        return lhs >> rhs[0] >> rhs[1] >> rhs[2];
-        //done
+        return lhs >>rhs[0]>> rhs[1] >> rhs[2];
     }
 }

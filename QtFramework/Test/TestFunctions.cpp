@@ -142,3 +142,155 @@ DCoordinate3 hypocycloid::d2(GLdouble u)
     return DCoordinate3(-(k-1) * cos(u) - (k - 1) * (k - 1) * cos((k - 1) * u), -(k-1) * sin(u) + (k-1)*(k-1)*sin((k - 1) * u), 0);
 }
 
+//paramtric surafaces
+//spheroid
+GLdouble spheroid::u_min = 0.0 + EPS;
+GLdouble spheroid::u_max = +PI - EPS;
+GLdouble spheroid::v_min = 0.0;
+GLdouble spheroid::v_max = +TWO_PI;
+GLdouble spheroid::a = 0.5;
+GLdouble spheroid::b = 1.5;
+
+DCoordinate3 spheroid::d00(GLdouble u, GLdouble v)
+{
+    GLdouble x = a * sin(u) * sin(v);
+    GLdouble y = a * sin(u) * cos(v);
+    GLdouble z = b * cos(u);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 spheroid::d10(GLdouble u, GLdouble v)
+{
+    GLdouble x = a * cos(u) * sin(v);
+    GLdouble y = a * cos(u) * cos(v);
+    GLdouble z = -b * sin(u);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 spheroid::d01(GLdouble u, GLdouble v)
+{
+    GLdouble x = a * sin(u) * cos(v);
+    GLdouble y =  -a * sin(u) * sin(v);
+    GLdouble z = 0.0;
+    return DCoordinate3(x, y, z);
+}
+
+//conchoid
+GLdouble conchoid::u_min = -TWO_PI;
+GLdouble conchoid::u_max = +TWO_PI;
+GLdouble conchoid::v_min = -TWO_PI;
+GLdouble conchoid::v_max = +TWO_PI;
+DCoordinate3 conchoid::d00(GLdouble u, GLdouble v)
+{
+    GLdouble x = pow(1.2, u) * (1 + cos(v)) * sin(u);
+    GLdouble y = pow(1.2, u) * (1 + cos(v)) * cos(u);
+    GLdouble z = pow(1.2, u) * sin(v) - 1.5 * pow(1.2, u);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 conchoid::d10(GLdouble u, GLdouble v)
+{
+    GLdouble x = pow(1.2, u) * (cos(v) + 1) * (0.182322 * sin(u) + cos(u));
+    GLdouble y = pow(1.2, u) * (cos(v) + 1) * (0.182322 * cos(u) - sin(u));
+    GLdouble z = pow(1.2, u) * (0.182322 * sin(v) - 0.273482);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 conchoid::d01(GLdouble u, GLdouble v)
+{
+    GLdouble x = -pow(1.2, u) * sin(u) * sin(v);
+    GLdouble y = -pow(1.2, u) * cos(u) * sin(v);
+    GLdouble z = pow(1.2, u) * cos(v);
+    return DCoordinate3(x, y, z);
+}
+//elliptic_torus
+GLdouble elliptic_torus::u_min = 0.0;
+GLdouble elliptic_torus::u_max = +TWO_PI;
+GLdouble elliptic_torus::v_min = 0.0;
+GLdouble elliptic_torus::v_max = +TWO_PI;
+GLdouble elliptic_torus::a = 1.5;
+GLdouble elliptic_torus::b = 0.5;
+GLdouble elliptic_torus::c = 1.0;
+
+DCoordinate3 elliptic_torus::d00(GLdouble u, GLdouble v)
+{
+    GLdouble x = (c + a * cos(v)) * cos(u);
+    GLdouble y = (c + a * cos(v)) * sin(u);
+    GLdouble z = b * sin(v);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 elliptic_torus::d10(GLdouble u, GLdouble v)
+{
+    GLdouble x = -(c + a * cos(v)) * sin(u);
+    GLdouble y = (c + a * cos(v)) * cos(u);
+    GLdouble z = b * cos(u);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 elliptic_torus::d01(GLdouble u, GLdouble v)
+{
+    GLdouble x = -a * sin(v) * cos(u);
+    GLdouble y = -a * sin(v) * sin(u);
+    GLdouble z = 0.0;
+    return DCoordinate3(x, y, z);
+}
+
+//astroidal surface
+GLdouble astroidal::u_min = -PI/2;
+GLdouble astroidal::u_max = +PI/2;
+GLdouble astroidal::v_min = -PI;
+GLdouble astroidal::v_max = +PI;
+DCoordinate3 astroidal::d00(GLdouble u, GLdouble v)
+{
+    GLdouble x = cos(u) * cos(u) * cos(u) * cos(v) * cos(v) * cos(v);
+    GLdouble y = sin(u) * sin(u) * sin(u) * cos(v) * cos(v) * cos(v);
+    GLdouble z = sin(v) * sin(v) * sin(v);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 astroidal::d10(GLdouble u, GLdouble v)
+{
+    GLdouble x = -3 * cos(u) * cos(u) * sin(u) * cos(v) * cos(v) * cos(v);
+    GLdouble y = 3 * sin(u) * sin(u) * cos(u) * cos(v) * cos(v) * cos(v);
+    GLdouble z = 0.0;
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 astroidal::d01(GLdouble u, GLdouble v)
+{
+    GLdouble x = -3 * cos(u) * cos(u) * cos(u) * cos(v) * cos(v) * sin(v);
+    GLdouble y = sin(u) * sin(u) * sin(u) * 3 * cos(v) * cos(v) * sin(v);
+    GLdouble z = 3 * cos(v) * sin(v) * sin(v);
+    return DCoordinate3(x, y, z);
+}
+
+//sine surface
+GLdouble sine_surface::u_min = -TWO_PI;
+GLdouble sine_surface::u_max = +TWO_PI;
+GLdouble sine_surface::v_min = -TWO_PI;
+GLdouble sine_surface::v_max = +TWO_PI;
+GLdouble sine_surface::a = 0.5;
+DCoordinate3 sine_surface::d00(GLdouble u, GLdouble v)
+{
+    GLdouble x = a * sin(u);
+    GLdouble y = a * sin(v);
+    GLdouble z = a * sin(u+v);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 sine_surface::d10(GLdouble u, GLdouble v)
+{
+    GLdouble x = a * cos(u);
+    GLdouble y = 0;
+    GLdouble z = a * cos(u + v);
+    return DCoordinate3(x, y, z);
+}
+
+DCoordinate3 sine_surface::d01(GLdouble u, GLdouble v)
+{
+    GLdouble x = 0;
+    GLdouble y = a * cos(v);
+    GLdouble z = a * cos(u + v);
+    return DCoordinate3(x, y, z);
+}

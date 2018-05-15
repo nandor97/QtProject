@@ -124,7 +124,32 @@ HEADERS += \
     GUI/MainWindow.h \
     GUI/SideWidget.h \
     Parametric/ParametricCurves3.h \
-    Test/TestFunctions.h
+    Test/TestFunctions.h \
+    Core/Colors4.h \
+    Core/Constants.h \
+    Core/DCoordinates3.h \
+    Core/Exceptions.h \
+    Core/GenericCurves3.h \
+    Core/HCoordinates3.h \
+    Core/Lights.h \
+    Core/LinearCombination3.h \
+    Core/Materials.h \
+    Core/Matrices.h \
+    Core/RealSquareMatrices.h \
+    Core/ShaderPrograms.h \
+    Core/TCoordinates4.h \
+    Core/TensorProductSurfaces3.h \
+    Core/TriangularFaces.h \
+    Core/TriangulatedMeshes3.h \
+    Cyclic/CyclicCurves3.h \
+    Dependencies/Include/GL/glew.h \
+    GUI/GLWidget.h \
+    GUI/MainWindow.h \
+    GUI/SideWidget.h \
+    Parametric/ParametricCurves3.h \
+    Parametric/ParametricSurfaces3.h \
+    Test/TestFunctions.h \
+    Trigonometric/QuarticAlgebraicTrigonometricPatches.h
 
 SOURCES += \
     GUI/GLWidget.cpp \
@@ -178,5 +203,22 @@ SOURCES += \
     GUI/SideWidget.cpp \
     Parametric/ParametricCurves3.cpp \
     Test/TestFunctions.cpp \
+    main.cpp \
+    Core/GenericCurves3.cpp \
+    Core/Lights.cpp \
+    Core/LinearCombination3.cpp \
+    Core/Materials.cpp \
+    Core/RealSquareMatrices.cpp \
+    Core/ShaderPrograms.cpp \
+    Core/TensorProductSurfaces3.cpp \
+    Core/TriangulatedMeshes3.cpp \
+    Cyclic/CyclicCurves3.cpp \
+    GUI/GLWidget.cpp \
+    GUI/MainWindow.cpp \
+    GUI/SideWidget.cpp \
+    Parametric/ParametricCurves3.cpp \
+    Parametric/ParametricSurfaces3.cpp \
+    Test/TestFunctions.cpp \
+    Trigonometric/QuarticAlgebraicTrigonometricPatches.cpp \
     main.cpp
 

@@ -3,10 +3,18 @@
 #include <GL/glew.h>
 #include <QGLWidget>
 #include <QGLFormat>
+#include <QTimer>
 #include "../Core/GenericCurves3.h"
 #include "../Parametric/ParametricCurves3.h"
 #include "../Cyclic/CyclicCurves3.h"
 #include "../Core/Constants.h"
+#include"Core/ShaderPrograms.h"
+#include"Core/TriangulatedMeshes3.h"
+#include"Core/TriangularFaces.h"
+#include"Core/Materials.h"
+#include"Core/Lights.h"
+#include"Parametric/ParametricSurfaces3.h"
+#include"Trigonometric/QuarticAlgebraicTrigonometricPatches.h"
 
 namespace cagd
 {
@@ -51,8 +59,29 @@ namespace cagd
         ColumnMatrix<GLdouble> u;
         ColumnMatrix<DCoordinate3> d;
 
-        QTimer      *_timer;
-        GLdouble    _angle;
+        TriangulatedMesh3* _mouse;
+        TriangulatedMesh3* _elephant;
+        Material* _material_mouse;
+        Material* _material_elephant;
+        QTimer *_timer;
+        GLdouble _angle;
+
+        RowMatrix<ParametricSurface3*> _surf;
+        RowMatrix<TriangulatedMesh3*> _surf_img;
+        Material* _material_surface;
+
+        GLdouble _alpha;
+        QuarticAlgebraicTrigonometricPatch* _patch;
+        TriangulatedMesh3 *_before_interpolation, *_after_interpolation;
+        RowMatrix<GenericCurve3*>* _u_dir;
+        RowMatrix<GenericCurve3*>* _v_dir;
+
+        GLint _shader_index;
+        ShaderProgram _shader_reflection_lines;
+        ShaderProgram _shader_directional_light;
+        ShaderProgram _shader_toon;
+        ShaderProgram _shader_two_sided_lighting;
+
     public:
         // special and default constructor
         // the format specifies the properties of the rendering window
@@ -78,5 +107,9 @@ namespace cagd
         void set_trans_y(double value);
         void set_trans_z(double value);
         void set_pc_index(int value);
+        void _animate();
+
+        void set_shader_index(int i);
+
     };
 }

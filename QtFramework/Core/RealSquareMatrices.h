@@ -114,7 +114,8 @@ namespace cagd
                 }
             }
         }
-        return GL_TRUE;
 
+        return GL_TRUE;
     }
+
 }

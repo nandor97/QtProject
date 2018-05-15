@@ -1,6 +1,5 @@
 #include "LinearCombination3.h"
 #include "RealSquareMatrices.h"
-#include <math.h>
 
 using namespace cagd;
 using namespace std;
@@ -198,15 +197,13 @@ GLvoid LinearCombination3::SetDefinitionDomain(GLdouble u_min, GLdouble u_max)
     // homework
     _u_min = u_min;
     _u_max = u_max;
-    //done
 }
 
 GLvoid LinearCombination3::GetDefinitionDomain(GLdouble& u_min, GLdouble& u_max) const
 {
-    //homework
+    // homework
     u_min = _u_min;
     u_max = _u_max;
-    //done
 }
 
 // generate image/arc
@@ -221,6 +218,7 @@ GenericCurve3* LinearCombination3::GenerateImage(GLuint max_order_of_derivatives
     {
         return 0;
     }
+
     // calculate derivatives at inner curve points
     GLdouble u_step = (_u_max - _u_min) / (div_point_count - 1);
     GLdouble u = _u_min;
@@ -233,6 +231,7 @@ GenericCurve3* LinearCombination3::GenerateImage(GLuint max_order_of_derivatives
         else
             u = _u_max;
         Derivatives d;
+
         if (!CalculateDerivatives(max_order_of_derivatives, u, d))
         {
             delete result, result = 0;
@@ -243,7 +242,6 @@ GenericCurve3* LinearCombination3::GenerateImage(GLuint max_order_of_derivatives
     }
 
     return result;
-    //done
 }
 
 // destructor
@@ -251,3 +249,4 @@ LinearCombination3::~LinearCombination3()
 {
     DeleteVertexBufferObjectsOfData();
 }
+

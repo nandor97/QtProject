@@ -15,6 +15,10 @@ namespace cagd
 //--------------------------------
 GLWidget::GLWidget(QWidget *parent, const QGLFormat &format): QGLWidget(format, parent)
 {
+    _timer = new QTimer(this);
+    _timer->setInterval(0);
+
+    connect(_timer, SIGNAL(timeout()), this, SLOT(_animate()));
 }
 
 //--------------------------------------------------------------------------------------
@@ -23,13 +27,41 @@ GLWidget::GLWidget(QWidget *parent, const QGLFormat &format): QGLWidget(format, 
 
 GLWidget::~GLWidget()
 {
-    for (GLuint i = 0; i < 6; ++i)
+    for(GLuint i = 0; i < 6; i++)
     {
-        if(_pc[i])
-            delete _pc[i], _pc[i] = 0;
-        if(_image_of_pc[i])
-            delete _image_of_pc[i], _image_of_pc[i] = 0;
+        if(_pc[i]){
+            delete _pc[i];
+
+        }
+
+        if(_image_of_pc[i]){
+            delete _image_of_pc[i];
+        }
     }
+    for(GLuint i = 0; i < 6; i++)
+    {
+        if(_surf[i]){
+            delete _surf[i];
+
+        }
+
+        if(_surf_img[i]){
+            delete _surf_img[i];
+        }
+    }
+    if(_cc)
+        delete _cc;
+
+    if(_img_cc)
+        delete _img_cc;
+    if(_icc)
+        delete _icc;
+    if(_img_icc)
+        delete _img_icc;
+    if(_before_interpolation)
+        delete _before_interpolation, _before_interpolation = 0;
+    if(_after_interpolation)
+        delete _after_interpolation, _after_interpolation = 0;
 }
 
 void GLWidget::initializeGL()
@@ -318,6 +350,268 @@ void GLWidget::initializeGL()
         _mod = 2;
         _img_icc = _icc->GenerateImage(_mod, div_point_count_i);
         _img_icc->UpdateVertexBufferObjects();
+        //----------------Eger-------------------------------------------------
+        _mouse = new (nothrow) TriangulatedMesh3();
+
+        if(!_mouse)
+            throw Exception("Could not create the triangulated mesh of the mouse model!");
+
+        if(!_mouse->LoadFromOFF("Models/mouse.off", GL_TRUE))
+            throw Exception("Could not load the mouse.off file!");
+
+        _angle = 0.0;
+        _timer->start();
+
+        if(!_mouse->UpdateVertexBufferObjects(usage_flag))
+            throw Exception("Could not update the vbo of the model!");
+
+        _material_mouse = new (nothrow) Material(MatFBRuby);
+
+        if(!_material_mouse)
+            throw Exception("Could not create the material of the model!");
+        //-----------------Elefant-----------------------------------------------
+
+        _elephant = new (nothrow) TriangulatedMesh3();
+
+        if(!_elephant)
+            throw Exception("Could not create the triangulated mesh of the elephant model!");
+
+        if(!_elephant->LoadFromOFF("Models/elephant.off", GL_TRUE))
+            throw Exception("Could not load the elephant.off file!");
+
+        _angle = 0.0;
+        _timer->start();
+
+        if(!_elephant->UpdateVertexBufferObjects(usage_flag))
+            throw Exception("Could not update the vbo of the model!");
+
+        _material_elephant = new (nothrow) Material(MatFBEmerald);
+
+        if(!_material_elephant)
+            throw Exception("Could not create the material of the model!");
+
+
+
+        _surf.ResizeColumns(5);
+        _surf_img.ResizeColumns(5);
+        _material_surface = new (nothrow) Material(MatFBEmerald);
+        //_dl = new DirectionalLight(GL_LIGHT0, HCoordinate3(-30, -30, 100, 1), Color4(1.0,1.0,1.0), Color4(1.0,1.0,1.0), Color4(1.0,1.0,1.0));
+
+        // ----------------------spheroid------------------------------------------------
+        TriangularMatrix<ParametricSurface3::PartialDerivative> derivatives_spheroid(3);
+        derivatives_spheroid(0,0) = spheroid::d00;
+        derivatives_spheroid(1,0) = spheroid::d01;
+        derivatives_spheroid(1,1) = spheroid::d10;
+        _surf[0] = 0;
+        _surf[0] = new ParametricSurface3(derivatives_spheroid, spheroid::u_min, spheroid::u_max, spheroid::v_min, spheroid::v_max);
+        if(!_surf[0])
+        {
+            throw("surface is null!");
+        }
+        _surf_img[0] = _surf[0]->GenerateImage(100,100);
+        if(!_surf_img[0]){
+             throw("Surface_image is null!");
+        }
+
+        if(!_surf_img[0]-> UpdateVertexBufferObjects(usage_flag)){
+              cout<<"Could not create the vertex buffer object of the parametric surface!"<<endl;
+        }
+
+        //---------------------------conchoid--------------------------------------------------
+        TriangularMatrix<ParametricSurface3::PartialDerivative> derivatives_conchoid(3);
+        derivatives_conchoid(0,0) = conchoid::d00;
+        derivatives_conchoid(1,0) = conchoid::d01;
+        derivatives_conchoid(1,1) = conchoid::d10;
+        _surf[1] = 0;
+        _surf[1] = new ParametricSurface3(derivatives_conchoid, conchoid::u_min, conchoid::u_max, conchoid::v_min, conchoid::v_max);
+        if(!_surf[1])
+        {
+            throw("surface is null!");
+        }
+        _surf_img[1] = _surf[1]->GenerateImage(100,100);
+        if(!_surf_img[1]){
+             throw("Surface_image is null!");
+        }
+
+        if(!_surf_img[1]-> UpdateVertexBufferObjects(usage_flag)){
+              cout<<"Could not create the vertex buffer object of the parametric surface!"<<endl;
+        }
+
+        //-------------------------------elliptic_torus----------------------------------------------
+        TriangularMatrix<ParametricSurface3::PartialDerivative> derivatives_elliptic_torus(3);
+        derivatives_elliptic_torus(0,0) = elliptic_torus::d00;
+        derivatives_elliptic_torus(1,0) = elliptic_torus::d01;
+        derivatives_elliptic_torus(1,1) = elliptic_torus::d10;
+        _surf[2] = 0;
+        _surf[2] = new ParametricSurface3(derivatives_elliptic_torus, elliptic_torus::u_min, elliptic_torus::u_max, elliptic_torus::v_min, elliptic_torus::v_max);
+        if(!_surf[2])
+        {
+            throw("surface is null!");
+        }
+        _surf_img[2] = _surf[2]->GenerateImage(100,100);
+        if(!_surf_img[2]){
+             throw("Surface_image is null!");
+        }
+
+        if(!_surf_img[2]-> UpdateVertexBufferObjects(usage_flag)){
+              cout<<"Could not create the vertex buffer object of the parametric surface!"<<endl;
+        }
+
+        //-----------------------------------astroidal------------------------------------------------
+        TriangularMatrix<ParametricSurface3::PartialDerivative> derivatives_astroidal(3);
+        derivatives_astroidal(0,0) = astroidal::d00;
+        derivatives_astroidal(1,0) = astroidal::d01;
+        derivatives_astroidal(1,1) = astroidal::d10;
+        _surf[3] = 0;
+        _surf[3] = new ParametricSurface3(derivatives_astroidal, astroidal::u_min, astroidal::u_max, astroidal::v_min, astroidal::v_max);
+        if(!_surf[3])
+        {
+            throw("surface is null!");
+        }
+        _surf_img[3] = _surf[3]->GenerateImage(100,100);
+        if(!_surf_img[3]){
+             throw("Surface_image is null!");
+        }
+
+        if(!_surf_img[3]-> UpdateVertexBufferObjects(usage_flag)){
+              cout<<"Could not create the vertex buffer object of the parametric surface!"<<endl;
+        }
+
+        //-----------------------------------sine_surface----------------------------------------
+        TriangularMatrix<ParametricSurface3::PartialDerivative> derivatives_sine_surface(3);
+        derivatives_sine_surface(0,0) = sine_surface::d00;
+        derivatives_sine_surface(1,0) = sine_surface::d01;
+        derivatives_sine_surface(1,1) = sine_surface::d10;
+        _surf[4] = 0;
+        _surf[4] = new ParametricSurface3(derivatives_sine_surface, sine_surface::u_min, sine_surface::u_max, sine_surface::v_min, sine_surface::v_max);
+        if(!_surf[4])
+        {
+            throw("surface is null!");
+        }
+        _surf_img[4] = _surf[4]->GenerateImage(100,100);
+        if(!_surf_img[4]){
+             throw("Surface_image is null!");
+        }
+
+        if(!_surf_img[4]-> UpdateVertexBufferObjects(usage_flag)){
+              cout<<"Could not create the vertex buffer object of the parametric surface!"<<endl;
+        }
+
+        _shader_index = 0;
+        //-----------------------reflection line shader----------------------------------------------
+        if(!_shader_reflection_lines.InstallShaders("Shaders/reflection_lines.vert", "Shaders/reflection_lines.frag", GL_TRUE))
+        {
+            throw("Could not install the shader files");
+        }
+        _shader_reflection_lines.Enable();
+        _shader_reflection_lines.SetUniformVariable1f("scale_factor", 4.0f);
+        _shader_reflection_lines.SetUniformVariable1f("smoothing", 2.0f);
+        _shader_reflection_lines.SetUniformVariable1f("shading", 1.0f);
+        _shader_reflection_lines.Disable();
+
+        //-------------------------directional light---------------------------------------
+        if(!_shader_directional_light.InstallShaders("Shaders/directional_light.vert", "Shaders/directional_light.frag", GL_TRUE))
+        {
+            throw("Could not install the shader files");
+        }
+        _shader_directional_light.Enable();
+        _shader_directional_light.Disable();
+
+        //-------------------------------------toon-----------------------------------------------
+        if(!_shader_toon.InstallShaders("Shaders/toon.vert", "Shaders/toon.frag", GL_TRUE))
+        {
+            throw("Could not install the shader files");
+        }
+        _shader_toon.Enable();
+        GLfloat *value = new GLfloat[4];
+        value[0] = 1.0f;
+        value[1] = 0.2f;
+        value[2] = 0.4f;
+        value[3] = 1.0f;
+        _shader_toon.SetUniformVariable4fv("default_outline_color", 4, value);
+        _shader_toon.Disable();
+
+        //------------------------------two sided lighting---------------------------------
+        if(!_shader_two_sided_lighting.InstallShaders("Shaders/two_sided_lighting.vert", "Shaders/two_sided_lighting.frag", GL_TRUE))
+        {
+            throw("Could not install the shader files");
+        }
+        _shader_two_sided_lighting.Enable();
+        _shader_two_sided_lighting.Disable();
+
+        //--------------------------Quartic Algebraic Trigonometric Patch-------------------------------------
+        _alpha = 3.0;
+        _patch = 0;
+        _patch = new QuarticAlgebraicTrigonometricPatch(_alpha);
+        _patch->SetData(0, 0, -2.0, -2.0, 0.0);
+        _patch->SetData(0, 1, -2.0, -1.0, 0.0);
+        _patch->SetData(0, 2, -2.0, 1.0, 0.0);
+        _patch->SetData(0, 3, -2.0, 2.0, 0.0);
+
+        _patch->SetData(1, 0, -1.0, -2.0, 0.0);
+        _patch->SetData(1, 1, -1.0, -1.0, 2.0);
+        _patch->SetData(1, 2, -1.0, 1.0, 2.0);
+        _patch->SetData(1, 3, -1.0, 2.0, 0.0);
+
+        _patch->SetData(2, 0, 1.0, -2.0, 0.0);
+        _patch->SetData(2, 1, 1.0, -1.0, 2.0);
+        _patch->SetData(2, 2, 1.0, 1.0, 2.0);
+        _patch->SetData(2, 3, 1.0, 2.0, 0.0);
+
+        _patch->SetData(3, 0, 2.0, -2.0, 0.0);
+        _patch->SetData(3, 1, 2.0, -1.0, 0.0);
+        _patch->SetData(3, 2, 2.0, 1.0, 0.0);
+        _patch->SetData(3, 3, 2.0, 2.0, 0.0);
+
+        _patch->UpdateVertexBufferObjectsOfData();
+        // generate the mesh of the surface patch
+        _before_interpolation = _patch->GenerateImage(30, 30, GL_STATIC_DRAW);
+
+        if (_before_interpolation)
+            _before_interpolation->UpdateVertexBufferObjects();
+
+        // define an interpolation problem:
+        // 1: create a knot vector in u-direction
+        RowMatrix<GLdouble> u_knot_vector(4);
+        u_knot_vector(0) = 0.0;
+        u_knot_vector(1) = _alpha / 3.0;
+        u_knot_vector(2) = 2.0 * _alpha / 3.0;
+        u_knot_vector(3) = _alpha;
+
+        // 2: create a knot vector in v-direction
+        ColumnMatrix<GLdouble> v_knot_vector(4);
+        v_knot_vector(0) = 0.0;
+        v_knot_vector(1) = _alpha / 3.0;
+        v_knot_vector(2) = 2.0 * _alpha / 3.0;
+        v_knot_vector(3) = _alpha;
+
+        // 3: define a matrix of data points, e.g. set them to the original control points
+        Matrix<DCoordinate3> data_points_to_interpolate(4, 4);
+        for (GLuint row = 0; row < 4; ++row)
+            for (GLuint column = 0; column < 4; ++column)
+                _patch->GetData(row, column, data_points_to_interpolate(row, column));
+
+        // 4: solve the interpolation problem and generate the mesh of the interpolating patch
+        if (_patch->UpdateDataForInterpolation(u_knot_vector, v_knot_vector, data_points_to_interpolate))
+        {
+            _after_interpolation = _patch->GenerateImage(30, 30, GL_STATIC_DRAW);
+
+            if (_after_interpolation)
+                _after_interpolation->UpdateVertexBufferObjects();
+        }
+        _u_dir = _patch->GenerateUIsoparametricLines(10, 1, 10);
+        _v_dir = _patch->GenerateVIsoparametricLines(10, 1, 10);
+        for (GLuint j = 0; j < _u_dir->GetColumnCount(); ++j)
+        {
+            // (*_u_dir)[j]->RenderDerivatives(0, GL_LINE_STRIP);
+            (*_u_dir)[j]->UpdateVertexBufferObjects();
+        }
+
+        for (GLuint j = 0; j < _v_dir->GetColumnCount(); ++j)
+        {
+            //(*_v_dir)[j]->RenderDerivatives(0, GL_LINE_STRIP);
+            (*_v_dir)[j]->UpdateVertexBufferObjects();
+        }
     }
     catch (Exception &e)
     {
@@ -380,11 +674,36 @@ void GLWidget::paintGL()
                 glVertex3f(0.0f, 0.0f, 1.0f);
             glEnd();
 */
+    /*-------------------------------------
+     *                 SHADERS
+     * -----------------------------------*/
 
+    if(_shader_index == 0)
+    {
+        _shader_reflection_lines.Disable();
+        _shader_directional_light.Disable();
+        _shader_toon.Disable();
+        _shader_two_sided_lighting.Disable();
+    }
+    else if(_shader_index == 1)
+    {
+        _shader_reflection_lines.Enable();
+    }
+    else if(_shader_index == 2)
+    {
+        _shader_directional_light.Enable();
+    }
+    else if(_shader_index == 3)
+    {
+        _shader_toon.Enable();
+    }
+    else if(_shader_index == 4)
+    {
+        _shader_two_sided_lighting.Enable();
+    }
     /*------------------------------------------
              Parametric curves
---------------------------------------------*/
-
+    --------------------------------------------*/
     if (_pc_index < 6)
     {
         if(_image_of_pc[_pc_index])
@@ -444,6 +763,104 @@ void GLWidget::paintGL()
             _img_icc->RenderDerivatives(2, GL_LINES);
 
         }
+    }
+    else if(_pc_index == 8)
+    {
+        //eger
+
+        if(_mouse)
+        {
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT0);
+            glEnable(GL_NORMALIZE);
+
+            _material_mouse->Apply();
+
+            _mouse->Render(GL_TRIANGLES);
+            glDisable(GL_LIGHT0);
+            glDisable(GL_NORMALIZE);
+            glDisable(GL_LIGHTING);
+        }
+
+    }
+    else if(_pc_index == 9)
+    {
+        //elefant
+
+        if(_elephant)
+        {
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT0);
+            glEnable(GL_NORMALIZE);
+
+            _material_elephant->Apply();
+
+            _elephant->Render(GL_TRIANGLES);
+
+            glDisable(GL_LIGHT0);
+            glDisable(GL_NORMALIZE);
+            glDisable(GL_LIGHTING);
+        }
+
+
+    }
+    else if(_pc_index > 9 && _pc_index < 15)
+    {
+
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_NORMALIZE);
+
+        _material_surface->Apply();
+        if(_surf_img[_pc_index - 10])
+        {//ki kell vonn a 10-et, ert az _pc_index-ek kozul a 10-edik lesz az elso surface, de 0-tol vannak indexelve a rowmatrix-ba
+            _surf_img[_pc_index - 10]->Render(GL_TRIANGLES);
+        }
+        glDisable(GL_LIGHT0);
+        glDisable(GL_NORMALIZE);
+        glDisable(GL_LIGHTING);
+
+    }
+    else if(_pc_index == 15)
+    {
+        glColor3f(0.0f, 0.0f, 1.0f);
+        for (GLuint j = 0; j < _u_dir->GetColumnCount(); ++j)
+        {
+            (*_u_dir)[j]->RenderDerivatives(0, GL_LINE_STRIP);
+        }
+
+        for (GLuint j = 0; j < _v_dir->GetColumnCount(); ++j)
+        {
+            (*_v_dir)[j]->RenderDerivatives(0, GL_LINE_STRIP);
+        }
+        glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
+        glEnable(GL_NORMALIZE);
+        if (_before_interpolation)
+        {
+            MatFBRuby.Apply();
+
+            glPointSize(5.0);
+            glColor3f(1.0f, 0.0f, 0.4f);
+            _patch->RenderData();
+            _patch->RenderData(GL_POINTS);
+
+            _before_interpolation->Render();
+        }
+        if (_after_interpolation)
+        {
+            glEnable(GL_BLEND);
+            glDepthMask(GL_FALSE);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+            MatFBTurquoise.Apply();
+            _after_interpolation->Render();
+            glDepthMask(GL_TRUE);
+            glDisable(GL_BLEND);
+        }
+        glDisable(GL_LIGHT0);
+        glDisable(GL_NORMALIZE);
+        glDisable(GL_LIGHTING);
+
     }
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
     // i.e., the original model view matrix is restored
@@ -551,6 +968,42 @@ void GLWidget::set_pc_index(int value)
     }
 }
 
+void GLWidget::_animate()
+{
+    GLfloat *vertex = _mouse->MapVertexBuffer(GL_READ_WRITE);
+    GLfloat *normal = _mouse->MapNormalBuffer(GL_READ_ONLY);
+    _angle += DEG_TO_RADIAN;
+    if (_angle > TWO_PI) _angle -= TWO_PI;
+
+    GLfloat scale = std::sin(_angle) / 3000.0;
+    for (GLuint i=0; i<_mouse->VertexCount(); ++i)
+        for (GLuint coordinate=0; coordinate<3; ++coordinate, ++vertex, ++normal)
+            *vertex += scale * (*normal);
+
+    _mouse->UnmapVertexBuffer();
+    _mouse->UnmapNormalBuffer();
+    updateGL();
+
+    GLfloat *vertex2 = _elephant->MapVertexBuffer(GL_READ_WRITE);
+    GLfloat *normal2 = _elephant->MapNormalBuffer(GL_READ_ONLY);
+    _angle += DEG_TO_RADIAN;
+    if (_angle > TWO_PI) _angle -= TWO_PI;
+
+    GLfloat scale2 = std::sin(_angle) / 3000.0;
+    for (GLuint i=0; i<_elephant->VertexCount(); ++i)
+        for (GLuint coordinate=0; coordinate<3; ++coordinate, ++vertex2, ++normal2)
+            *vertex2 += scale2 * (*normal2);
+
+    _elephant->UnmapVertexBuffer();
+    _elephant->UnmapNormalBuffer();
+    updateGL();
+}
+void GLWidget::set_shader_index(int i)
+{
+    if(_shader_index != i)
+        _shader_index = i;
+    updateGL();
+}
 
 }
 
